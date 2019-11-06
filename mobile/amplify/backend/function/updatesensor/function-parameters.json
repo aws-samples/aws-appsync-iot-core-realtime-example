@@ -1,0 +1,12 @@
+{
+    "permissions": {
+        "api": {
+            "sensorview": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}
