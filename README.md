@@ -48,13 +48,13 @@ If you run into issues installing or configuring anything in this project please
 **Clone this code repository**
 
 ```
-$ git clone https://github.com/dave-moser/sensor-view.git
+$ git clone https://github.com/aws-samples/aws-appsync-iot-core-realtime-example.git
 ```
 
 **Switch to the mobile folder and initialize your Amplify environment**
 
 ```
-$ cd sensor-view/mobile
+$ cd aws-appsync-iot-core-realtime-example/mobile
 $ amplify init
 
 ? Do you want to use an existing environment? No
@@ -97,7 +97,7 @@ $ cd ..
 
 **Install the IoT Sensor**
 
-Open a new terminal window then switch to the app's root folder (sensor-view/sensor). 
+Open a new terminal window then switch to the app's root folder (aws-appsync-iot-core-realtime-example/sensor). 
 
 Install the Node js packages, and run the Node js app to create your sensor as a 'Thing' in AWS IoT Core.  It will also create and install the certificates your sensor needs to authenticate to IoT Core.
 
