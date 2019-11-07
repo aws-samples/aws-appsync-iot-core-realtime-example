@@ -1,6 +1,6 @@
 # aws-appsync-iot-core-realtime-example
 
-This is an application that demonstrates an iPhone receiving real-time updates from an IoT sensor.  The solution is built with AWS Mobile and AWS IoT technologies.
+This application demonstrates an iPhone receiving real-time updates from an IoT sensor.  The solution is built with AWS AppSync and AWS IoT Core technologies.
 
 ![Image description](images/app.png)
 
