@@ -57,13 +57,24 @@ $ git clone https://github.com/aws-samples/aws-appsync-iot-core-realtime-example
 $ cd aws-appsync-iot-core-realtime-example/mobile
 $ amplify init
 
-? Do you want to use an existing environment? No
 ? Enter a name for the environment: mysandbox
+? Choose your default editor: [select your favorite IDE]
 ? Do you want to use an AWS profile? Yes
 ? Please choose the profile you want to use: default
 ```
 
 When you select your profile, make sure to select the same profile you used when configuring Amplify.
+
+Amplify will then begin to provision your account for the project deployment.
+
+```
+? Do you want to configure Lambda Triggers for Cognito? (Y/n) n
+```
+Once your account has been provisioned, entering the 'amplify status' command will show you the resources Amplify will create in your account:
+
+```
+$ amplify status
+```
 
 **Deploy the app infrastructure to your AWS account**
 
@@ -101,6 +112,7 @@ Open a new terminal window then switch to the app's root folder (aws-appsync-iot
 Install the Node js packages, and run the Node js app to create your sensor as a 'Thing' in AWS IoT Core.  It will also create and install the certificates your sensor needs to authenticate to IoT Core.
 
 ```
+$ cd ../sensor/
 $ npm install
 $ node create-sensor.js
 ```
@@ -137,7 +149,7 @@ Keep this app running and switch to your mobile terminal window.
 
 **Start the iPhone app**
 
-Switch back to the terminal window pointing to the mobile folder and run:
+Switch back to the terminal window pointing to the **mobile** folder and run:
 
 ```
 $ npx react-native run-ios
@@ -157,7 +169,7 @@ You should now see a screen similar to the one at the top of this guide.  If you
 
 ## Cleanup
 
-Once you are finished working with this project, you may want to delete all of the resources it created in your AWS account.
+Once you are finished working with this project, you may want to delete the resources it created in your AWS account.  From the **mobile** folder:
 
 ```
 $ amplify delete
