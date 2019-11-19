@@ -62,7 +62,6 @@ $ amplify init
 ? Do you want to use an AWS profile? Yes
 ? Please choose the profile you want to use: default
 ```
-Make sure you **do not** use an **existing environment**.  You must create a new environment (i.e. mysandbox).
 
 When you select your profile, make sure to select the same profile you used when configuring Amplify.
 
@@ -160,17 +159,9 @@ You should now see a screen similar to the one at the top of this guide.  If you
 
 Once you are finished working with this project, you may want to delete all of the resources it created in your AWS account.
 
-Since you cannot delete your current environment, first switch back to the app's default **dev** environment.
-
 ```
-$ amplify env checkout dev
-```
-
-Then remove the environment you created. Replace **[your-environment-name]** with the name you chose for your environment.
-
-```
-$ amplify env remove [your-environment-name]
-? Do you also want to remove all the resources of the environment from the cloud? (Y/n) Y
+$ amplify delete
+? Are you sure you want to continue? (This would delete all the environments of the project from the cloud and wipe out all the local amplify resource files) (Y/n)  Y
 ```
 
 ## Troubleshooting
