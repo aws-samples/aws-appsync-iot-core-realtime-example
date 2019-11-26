@@ -156,6 +156,17 @@ $ npx react-native run-ios
 ```
 This will launch Xcode's iPhone simulator and a new terminal window that serves up the app.
 
+The default simulator is "iPhone X". If you wish to run your app on another iPhone version, for example an iPhone 11 Pro Max, run:
+
+```
+$ npx react-native run-ios --simulator="iPhone 11 Pro Max"
+```
+
+The simulator name must correspond to a device available in Xcode. You can check your available devices by running the following command from the console.
+
+```
+$ xcrun simctl list devices 
+```
 
 **Sign-up and Sign-in**
 
