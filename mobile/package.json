@@ -14,8 +14,8 @@
     "amazon-cognito-identity-js": "^3.1.2",
     "aws-amplify": "^1.2.2",
     "aws-amplify-react-native": "^2.2.2",
-    "react": "16.8.1",
-    "react-native": "0.61.2",
+    "react": "^16.8.1",
+    "react-native": "^0.61.2",
     "react-native-elements": "^1.2.6",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-scripts": "^2.0.1",
@@ -32,7 +32,7 @@
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "^0.51.1",
     "react-native-cli": "^2.0.1",
-    "react-test-renderer": "16.8.1"
+    "react-test-renderer": "^16.8.1"
   },
   "jest": {
     "preset": "react-native"
