@@ -34,9 +34,9 @@ This application demonstrates an iPhone receiving real-time updates from an IoT 
 
 2. An AWS account in which you have Administrator access.
 
-3. [Node JS](https://nodejs.org/en/download/) (^8.0) with NPM (^5.2)
+3. [Node JS](https://nodejs.org/en/download/) (^10.0) with NPM (^6.14)
 
-4. [Amplify CLI](https://aws-amplify.github.io/docs/) (^3.11.0).
+4. [Amplify CLI](https://aws-amplify.github.io/docs/) (^4.21.0).
 
 After you have installed and configured Amplify, take note of the AWS profile you selected during the configuration.  If you created a profile other than **default**, you will need the profile name for later steps in the deployment.
 

@@ -76,8 +76,8 @@
 				"Runtime": "nodejs10.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "sensorview-dev-20191012151541-deployment",
-					"S3Key": "amplify-builds/createsensor-4a62785a345262427435-build.zip"
+					"S3Bucket": "amplify-sensorview-mobdev-171944-deployment",
+					"S3Key": "amplify-builds/createsensor-4c326b76414131575550-build.zip"
 				}
 			}
 		},

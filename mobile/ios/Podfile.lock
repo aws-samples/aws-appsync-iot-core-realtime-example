@@ -218,10 +218,10 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - ReactCommon/jscallinvoker (= 0.61.2)
-  - RNAWSCognito (3.1.2):
+  - RNAWSCognito (3.3.3):
     - JKBigInteger2 (= 0.0.5)
     - React
-  - RNGestureHandler (1.4.1):
+  - RNGestureHandler (1.6.1):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -350,8 +350,8 @@ SPEC CHECKSUMS:
   React-RCTText: e3ef6191cdb627855ff7fe8fa0c1e14094967fb8
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
-  RNAWSCognito: 8debf630c0098266616f6815d0a163cdb927b2ad
-  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNAWSCognito: 9f5a5c4947dc94c94b3b5a06ac5874124adba400
+  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 

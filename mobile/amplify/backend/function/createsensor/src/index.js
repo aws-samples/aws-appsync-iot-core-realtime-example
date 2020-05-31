@@ -41,6 +41,8 @@ exports.handler = async (event, context) => {
         value
         isWarning
         timestamp
+        createdAt
+        updatedAt
       }
     }`;
 
@@ -52,6 +54,8 @@ exports.handler = async (event, context) => {
           value
           isWarning
           timestamp
+          createdAt
+          updatedAt
         }
       }`;
 

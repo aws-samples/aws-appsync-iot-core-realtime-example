@@ -1,7 +1,7 @@
 {
-  "host": "a7xm45onti3g0-ats.iot.us-east-1.amazonaws.com",
-  "keyPath": "./certs/sensor-1570921977695-private.pem.key",
-  "certPath": "./certs/sensor-1570921977695-certificate.pem.crt",
+  "host": "a7xm45onti3g0-ats.iot.us-west-2.amazonaws.com",
+  "keyPath": "./certs/sensor-1590885629432-private.pem.key",
+  "certPath": "./certs/sensor-1590885629432-certificate.pem.crt",
   "caPath": "./certs/AmazonRootCA1.pem",
-  "clientId": "sensor-1570921977695"
+  "clientId": "sensor-1590885629432"
 }
