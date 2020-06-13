@@ -6,11 +6,10 @@ This application demonstrates an iPhone receiving real-time updates from an IoT 
 
 ## Architecture
 ![Image description](images/architecture.png)
-1. The sensor component is developed with the AWS IoT Device SDK for Javascript.  The sensor is registered as a Thing in IoT Core and publishes a random temperature in a JSON payload to the Cloud every 2 seconds.
+1. The sensor component is developed with the AWS IoT Device SDK for Javascript.  The sensor is registered as a Thing in IoT Core and publishes a random temperature in a JSON payload to the Cloud every 2 seconds.  The Thing Shadow also containes meta-data about then sensor specifying the _sensor type_ as Temperature.
 
 ```json
 {
-    "sensorType": "Temperature",
     "value": 84,
     "timestamp": 1570562147790
 }
@@ -34,7 +33,7 @@ This application demonstrates an iPhone receiving real-time updates from an IoT 
 
 2. An AWS account in which you have Administrator access.
 
-3. [Node JS](https://nodejs.org/en/download/) (^10.0) with NPM (^6.14)
+3. [Node.js](https://nodejs.org/en/download/) (^10.0) with NPM (^6.14)
 
 4. [Amplify CLI](https://aws-amplify.github.io/docs/) (^4.21.0).
 
@@ -51,7 +50,22 @@ If you run into issues installing or configuring anything in this project please
 $ git clone https://github.com/aws-samples/aws-appsync-iot-core-realtime-example.git
 ```
 
-**Switch to the mobile folder and initialize your Amplify environment**
+**Switch to the mobile folder**
+
+```
+$ cd aws-appsync-iot-core-realtime-example/mobile
+```
+
+**Install the iOS app's Node.js and CocoaPod packages**
+
+```
+$ npm install
+$ cd ios
+$ pod install
+$ cd ..
+```
+
+**Initialize your Amplify environment**
 
 ```
 $ cd aws-appsync-iot-core-realtime-example/mobile
@@ -74,6 +88,16 @@ Once your account has been provisioned, entering the 'amplify status' command wi
 
 ```
 $ amplify status
+
+Current Environment: mysandbox
+
+| Category | Resource name      | Operation | Provider plugin   |
+| -------- | ------------------ | --------- | ----------------- |
+| Auth     | sensorview74d21f87 | Create    | awscloudformation |
+| Api      | sensorview         | Create    | awscloudformation |
+| Function | getsensor          | Create    | awscloudformation |
+| Function | createsensorvalue  | Create    | awscloudformation |
+| Iotrule  | createsensorvalue  | Create    | awscloudformation |
 ```
 
 **Deploy the app infrastructure to your AWS account**
@@ -93,31 +117,23 @@ Resources being created in your account include:
 - DynamoDB table
 - Cognito user pool
 - Lambda functions (2)
-- IoT Rules (2)
+- IoT Rule
 
-**Install the iOS app's Node js and CocoaPod packages**
-
-```
-$ npm install
-$ npx react-native link
-$ cd ios
-$ pod install
-$ cd ..
-```
 
 **Install the IoT Sensor**
 
-Open a new terminal window then switch to the app's root folder (aws-appsync-iot-core-realtime-example/sensor). 
+Open a new terminal window then switch to the app's **sensor** folder (aws-appsync-iot-core-realtime-example/sensor). 
 
-Install the Node js packages, and run the Node js app to create your sensor as a 'Thing' in AWS IoT Core.  It will also create and install the certificates your sensor needs to authenticate to IoT Core.
+Install the Node.js packages, and run the Node.js app to create your sensor as a **Thing** in AWS IoT Core.  It will also create and install the certificates your sensor needs to authenticate to IoT Core.
+
+From the **sensor** folder:
 
 ```
-$ cd ../sensor/
 $ npm install
 $ node create-sensor.js
 ```
 
-*Note - this will create the sensor using your default AWS profile account and region.  If you have not specified a default region in your local AWS configuration, it will default to us-east-1.
+_*Note - this will create the sensor using your default AWS profile account and region.  If you have not specified a default region in your local AWS configuration, it will default to us-east-1._
 
 If you do not have a **default** profile or you are using a profile other than **default**, run the app with an AWS_PROFILE environment variable specifiying the profile name you would like to use.
 
@@ -131,19 +147,23 @@ $ AWS_PROFILE=[my-aws-profile] node create-sensor.js
 
 **Start the IoT Sensor**
 
-From the sensor terminal window:
+From the **sensor** terminal window:
 
 ```
 $ node index.js
 ```
-You will see output from the app as it connects to IoT Core and publishes new temperature messages every 2 seconds.
+You will see output from the app as it connects to IoT Core, transmits its shadow document, and publishes new temperature messages every 2 seconds.
 
 ```
-published to topic cmd/sensor-view/sensor-1570562080581/sensor-create {"sensorType":"Temperature","value":0,"timestamp":1570562143384}
+connected to IoT Hub
 
-published to topic dt/sensor-view/sensor-1570562080581/sensor-value {"sensorType":"Temperature","value":80,"timestamp":1570562145788}
+published to shadow topic $aws/things/sensor-1592073852935/shadow/update {"state":{"reported":{"sensorType":"Temperature"}}}
 
-published to topic dt/sensor-view/sensor-1570562080581/sensor-value {"sensorType":"Temperature","value":84,"timestamp":1570562147790}
+published to topic dt/sensor-view/sensor-1592073852935/sensor-value {"value":77,"timestamp":1592073890804}
+
+published to topic dt/sensor-view/sensor-1592073852935/sensor-value {"value":76,"timestamp":1592073892807}
+
+published to topic dt/sensor-view/sensor-1592073852935/sensor-value {"value":77,"timestamp":1592073894810}
 ```
 Keep this app running and switch to your mobile terminal window.
 
@@ -180,11 +200,19 @@ You should now see a screen similar to the one at the top of this guide.  If you
 
 ## Cleanup
 
-Once you are finished working with this project, you may want to delete the resources it created in your AWS account.  From the **mobile** folder:
+Once you are finished working with this project, you may want to delete the resources it created in your AWS account.  
+
+From the **mobile** folder:
 
 ```
 $ amplify delete
 ? Are you sure you want to continue? (This would delete all the environments of the project from the cloud and wipe out all the local amplify resource files) (Y/n)  Y
+```
+
+From the **sensor** folder:
+
+```
+$ node delete-sensor.js
 ```
 
 ## Troubleshooting
