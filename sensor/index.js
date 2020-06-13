@@ -5,7 +5,7 @@ var settings = require('./settings.json');
 
 //constants used in the application
 const SHADOW_TOPIC = "$aws/things/[thingName]/shadow/update";
-const VALUE_TOPIC = "dt/sensor-view/SF/[thingName]/sensor-value"; //topic to which sensor values will be published
+const VALUE_TOPIC = "dt/sensor-view/[thingName]/sensor-value"; //topic to which sensor values will be published
 const VALUE_RATE = 2000; //rate in milliseconds new temperature values will be published to the Cloud
 
 //initialize the IOT device

@@ -22,19 +22,11 @@ export const GetSensor = async (sensorId) => {
     }
 }
 
-export const GetSensorStatusColor = (status) => {
+export const GetSensorStatusColor = (isWarning) => {
     
-    let r = "";
-
-    if (status === 1) {
-        r = "green"
-    } else if (status === 2) {
-        r = "yellow"
-    } else if (status === 3) {
-        r = "red"
+    if (isWarning) {
+        return "red"
     } else {
-      r = "white"
+      return "green"
     }
-
-    return r;
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import SensorScreen from './SensorScreen';
+import SensorScreen from './screens/SensorScreen';
 
 const Navigation = () => {
 

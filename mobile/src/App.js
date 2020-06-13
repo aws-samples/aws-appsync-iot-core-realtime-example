@@ -2,7 +2,7 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { withAuthenticator } from 'aws-amplify-react-native'
 
-import Navigation from './screens/Navigation'
+import Navigation from './Navigation'
 
 const App = () => {
   
