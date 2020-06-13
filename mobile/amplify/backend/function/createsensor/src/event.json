@@ -1,8 +1,0 @@
-{
-    "sensorId": "sensor1",
-    "data": {
-        "sensorType": "Temperature",
-        "value": 75,
-        "timestamp": 1570921131000
-    }
-}
