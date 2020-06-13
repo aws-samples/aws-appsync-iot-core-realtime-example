@@ -1,9 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import {API, graphqlOperation} from 'aws-amplify';
-import {View, StyleSheet, Text} from 'react-native';
-import Speedometer from 'react-native-speedometer-chart'
 import {GetSensor, GetSensorStatusColor} from '../api/Sensors';
 import {onCreateSensorValue} from '../graphql/subscriptions';
+
+import SensorGauge from '../components/SensorGauge';
+import Activity from '../components/Activity';
 
 import settings from '../settings.json';
 
@@ -68,52 +69,16 @@ const SensorScreen = () => {
 
   return (
 
-    <View style={styles.container}>
-      <View style={styles.titleRow}>
-        <Text style={styles.title}>{sensor.sensorType}</Text>
-      </View>
-      <View style={styles.row}>
-        <Speedometer 
-              value={sensorValue.value} 
-              totalValue={100} 
-              showIndicator
-              outerColor="#d3d3d3"
-              internalColor={GetSensorStatusColor(sensorValue.isWarning)} 
-          />
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.value}>{sensorValue.value}</Text>
-      </View>
-      <View style={styles.row}>
-          <Text style={styles.value}>{new Date(sensorValue.timestamp).toLocaleTimeString()}</Text>
-      </View>
-  </View>
+    sensorValue.value === undefined ? <Activity title="Fetching Sensor"/> :
+      <SensorGauge 
+        sensorType={sensor.sensorType}
+        gaugeColor={GetSensorStatusColor(sensorValue.isWarning)}
+        value={sensorValue.value}
+        time={new Date(sensorValue.timestamp).toLocaleTimeString()}
+      />
   );
 };
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff'
-  },
-  title: {
-    fontSize:32,
-    fontWeight:'bold'
-  },
-  value: {
-    fontSize:28
-  },
-  titleRow: {
-    flex: 1,
-    marginTop: 45,
-    alignSelf: 'center',
-    fontSize:24
-  },
-  row: {
-    flex: 1,
-    alignSelf: 'center'
-  }
-});
 
 export default SensorScreen;
