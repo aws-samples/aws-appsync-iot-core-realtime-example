@@ -4,16 +4,24 @@ const awsIot = require('aws-iot-device-sdk');
 var settings = require('./settings.json');
 
 //constants used in the application
-const VALUE_TOPIC = "dt/sensor-view/[id]/sensor-value"; //topic to which sensor values will be published
-const CREATE_TOPIC =  "cmd/sensor-view/[id]/sensor-create"; //topic to which the create sensor request will be published
+const SHADOW_TOPIC = "$aws/things/[thingName]/shadow/update";
+const VALUE_TOPIC = "dt/sensor-view/SF/[thingName]/sensor-value"; //topic to which sensor values will be published
 const VALUE_RATE = 2000; //rate in milliseconds new temperature values will be published to the Cloud
 
 //initialize the IOT device
 var device = awsIot.device(settings);
 
+//shadow document to be transmitted at statup
+var shadowDocument = {
+    state: {
+        reported: {
+            sensorType: "Temperature",
+        }
+    }
+}
+
 //create a placeholder for the message
 var msg = {
-    sensorType: 'Temperature',
     value: 0,
     timestamp: new Date().getTime()
 }
@@ -22,32 +30,33 @@ device.on('connect', function() {
     
     console.log('connected to IoT Hub');
 
-    //publish a message to the create topic - this will trigger the sensor to be created by the app API
-    var topic = CREATE_TOPIC.replace('[id]', settings.clientId);
+    //publish the shadow document for the sensor
+    var topic = SHADOW_TOPIC.replace('[thingName]', settings.clientId);
 
-    device.publish(topic, JSON.stringify(msg)); 
+    device.publish(topic, JSON.stringify(shadowDocument)); 
 
-    console.log('published to topic ' + topic + ' ' + JSON.stringify(msg));
+    console.log('published to shadow topic ' + topic + ' ' + JSON.stringify(shadowDocument));
 
-    //publish new temperature readings very 2 seconds
-    setInterval(sendSensorState, VALUE_RATE);
+    //publish new value readings based on value_rate
+    setInterval(function(){
+
+        msg.value = 75 + Math.floor((Math.random() * (10 - 1) + 1));
+        msg.timestamp = new Date().getTime();
+    
+        var topic = VALUE_TOPIC.replace('[thingName]', settings.clientId);
+    
+        device.publish(topic, JSON.stringify(msg)); 
+    
+        console.log('published to topic ' + topic + ' ' + JSON.stringify(msg));
+
+
+    }, VALUE_RATE);
 });
 
 device.on('error', function(error) {
     console.log('Error: ', error);
 });
 
-function sendSensorState() {
-
-    msg.value = 75 + Math.floor((Math.random() * (10 - 1) + 1));
-    msg.timestamp = new Date().getTime();
-
-    var topic = VALUE_TOPIC.replace('[id]', settings.clientId);
-
-    device.publish(topic, JSON.stringify(msg)); 
-
-    console.log('published to topic ' + topic + ' ' + JSON.stringify(msg));
-}
   
   
 
