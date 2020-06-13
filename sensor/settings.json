@@ -3,5 +3,6 @@
   "keyPath": "",
   "certPath": "",
   "caPath": "",
-  "clientId": ""
+  "clientId": "",
+  "certificateArn": ""
 }
