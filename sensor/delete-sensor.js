@@ -13,9 +13,11 @@ const PROFILE = process.env.AWS_PROFILE || 'default';
 
 //constants used in the app - do not change
 const SETTINGS_FILE = './settings.json';
+const MOBILE_SETTINGS_FILE = '../mobile/src/settings.json';
 
 //open sensor definition file
 var settings = require(SETTINGS_FILE);
+var mobileSettings = require(MOBILE_SETTINGS_FILE);
 
 //use the credentials from the AWS profile
 var credentials = new AWS.SharedIniFileCredentials({profile: PROFILE});
@@ -64,8 +66,12 @@ async function deleteSensor(){
     //save the updated settings file
     settings.clientId = "";
 
-    let data = JSON.stringify(settings, null, 2);
+    var data = JSON.stringify(settings, null, 2);
     await fs.writeFile(SETTINGS_FILE, data);
+
+    mobileSettings.sensorId = "";
+    data = JSON.stringify(mobileSettings, null, 2);
+    await fs.writeFile(MOBILE_SETTINGS_FILE, data);
 
     //display results
     console.log('IoT Things Removed');

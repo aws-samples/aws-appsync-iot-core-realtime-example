@@ -5,9 +5,11 @@ import Speedometer from 'react-native-speedometer-chart'
 import {GetSensor, GetSensorStatusColor} from '../api/Sensors';
 import {onCreateSensorValue} from '../graphql/subscriptions';
 
+import settings from '../settings.json';
+
 const SensorScreen = () => {
 
-  const sensorId = 'sensor-1592012150474';
+  const sensorId = settings.sensorId;
 
   const [sensor, setSensor] = useState({});
   const [sensorValue, setSensorValue] = useState({});

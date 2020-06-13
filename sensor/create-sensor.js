@@ -13,12 +13,15 @@ const PROFILE = process.env.AWS_PROFILE || 'default';
 
 //constants used in the app - do not change
 const SETTINGS_FILE = './settings.json';
+const MOBILE_SETTINGS_FILE = '../mobile/src/settings.json';
 const CERT_FOLDER = './certs/';
 const POLICY_FILE = './policy.json';
 const ROOT_CA_FILE = 'AmazonRootCA1.pem';
 
 //open sensor definition file
 var settings = require(SETTINGS_FILE);
+var mobileSettings = require(MOBILE_SETTINGS_FILE);
+
 const policyDocument = require(POLICY_FILE);
 
 //use the credentials from the AWS profile
@@ -96,8 +99,12 @@ async function createSensor(){
     await iot.attachThingPrincipal({thingName: settings.clientId, principal: certificateArn}).promise();
 
     //save the updated settings file
-    let data = JSON.stringify(settings, null, 2);
+    var data = JSON.stringify(settings, null, 2);
     await fs.writeFile(SETTINGS_FILE, data);
+
+    mobileSettings.sensorId = settings.clientId;
+    data = JSON.stringify(mobileSettings, null, 2);
+    await fs.writeFile(MOBILE_SETTINGS_FILE, data);
 
     //display results
     console.log('IoT Thing Provisioned: ' + settings.clientId);
