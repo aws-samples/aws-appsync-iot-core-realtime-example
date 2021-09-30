@@ -1,11 +1,11 @@
 {
-    "AppSyncApiName": "sensorview",
-    "DynamoDBBillingMode": "PAY_PER_REQUEST",
-    "DynamoDBEnableServerSideEncryption": "false",
-    "AuthCognitoUserPoolId": {
-        "Fn::GetAtt": [
-            "authsensorview74d21f87",
-            "Outputs.UserPoolId"
-        ]
-    }
+  "AppSyncApiName": "sensorview",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": "false",
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authsensorview74d21f87",
+      "Outputs.UserPoolId"
+    ]
+  }
 }

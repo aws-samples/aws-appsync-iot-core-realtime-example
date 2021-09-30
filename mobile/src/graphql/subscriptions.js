@@ -7,7 +7,6 @@ export const onCreateSensorValue = /* GraphQL */ `
       id
       sensorId
       value
-      isWarning
       timestamp
       createdAt
       updatedAt

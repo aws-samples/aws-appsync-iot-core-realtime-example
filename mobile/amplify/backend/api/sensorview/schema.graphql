@@ -9,7 +9,6 @@ type SensorValue @model (subscriptions: null)
   id: ID!
   sensorId: String!
   value: Float!
-  isWarning: Boolean!
   timestamp: AWSTimestamp!
 }
 

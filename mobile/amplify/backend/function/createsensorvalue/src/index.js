@@ -25,14 +25,13 @@ exports.handler = async (event) => {
   const mutation = require('./mutations').createSensorValue;
 
   //determine if the sensor value is a warning based on the value >= 80
-  let isWarning = (event.data.value) >= 80 ? true: false;
+  // let isWarning = (event.data.value) >= 80 ? true: false;
   
   //create the mutuation input from the sensor event data
   const item = {
     input: {
       sensorId: event.sensorId,
       value: event.data.value,
-      isWarning: isWarning,
       timestamp: event.data.timestamp
     }
   };

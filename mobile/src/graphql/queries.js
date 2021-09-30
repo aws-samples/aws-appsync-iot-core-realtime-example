@@ -15,7 +15,6 @@ export const getSensorValue = /* GraphQL */ `
       id
       sensorId
       value
-      isWarning
       timestamp
       createdAt
       updatedAt
@@ -33,7 +32,6 @@ export const listSensorValues = /* GraphQL */ `
         id
         sensorId
         value
-        isWarning
         timestamp
         createdAt
         updatedAt

@@ -10,7 +10,6 @@ export const createSensorValue = /* GraphQL */ `
       id
       sensorId
       value
-      isWarning
       timestamp
       createdAt
       updatedAt
@@ -26,7 +25,6 @@ export const updateSensorValue = /* GraphQL */ `
       id
       sensorId
       value
-      isWarning
       timestamp
       createdAt
       updatedAt
@@ -42,7 +40,6 @@ export const deleteSensorValue = /* GraphQL */ `
       id
       sensorId
       value
-      isWarning
       timestamp
       createdAt
       updatedAt
