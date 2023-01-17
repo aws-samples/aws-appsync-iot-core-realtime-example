@@ -204,7 +204,7 @@ From the **sensor** folder:
 $ node delete-sensor.js [--profile] [--region]
 ```
 
-*Note - the profile and region arguments are optional. If not specified the app will delete the sensors using your default AWS Profile in us-east-1*
+*Note - the profile and region arguments are optional. If not specified the app will delete the sensor using your default AWS Profile in us-east-1*
 
 ## License
 
