@@ -25,24 +25,21 @@ This application demonstrates an iPhone receiving real-time updates from an IoT 
 
 ### **Prerequisites**
 
-1. A Mac with 
-   - Xcode (^10.2)
-   - Xcode iPhone Simulator enabled. (Simulators can be installed from the "Components" tab in Xcode Preferences)
-   - Xcode Command-line Tools
-   - CocoaPods
+The following software was used in the development of this application.  While it may work with alternative versions, we recommend you deploy the specified minimum version.
 
-2. An AWS account in which you have Administrator access.
+1. An AWS account in which you have Administrator access.
 
-3. [Node.js](https://nodejs.org/en/download/) (^10.0) with NPM (^6.14)
+2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) (2.4.19) the AWS Command Line Interface (CLI) is used to configure your connection credentials to AWS.
 
-4. [Amplify CLI](https://aws-amplify.github.io/docs/) (^4.21.0).
+3. [Node.js](https://nodejs.org/en/download/current/) (^16.8.1) with NPM (^8.12.2)
+
+4. [Amplify CLI](https://docs.amplify.aws/cli/start/install) (^10.6.1) Amplify is used to create the AWS AppSync API and generate the client side Swift code to interact with AWS.
+
+5. [Xcode](https://developer.apple.com/xcode/) (14.2) Xcode is used to build and debug the mobile appliction application.  You will need iOS Simulator 16.0 enabled.
 
 After you have installed and configured Amplify, take note of the AWS profile you selected during the configuration.  If you created a profile other than **default**, you will need the profile name for later steps in the deployment.
 
 ### **Installing**
-
-If you run into issues installing or configuring anything in this project please checkout the [Troubleshooting](#troubleshooting) section below.
-
 
 **Clone this code repository**
 
@@ -120,7 +117,7 @@ Resources being created in your account include:
 - IoT Rule
 
 
-**Install the IoT Sensor**
+**Install the IoT Sensor Simulator**
 
 Open a new terminal window then switch to the app's **sensor** folder (aws-appsync-iot-core-realtime-example/sensor). 
 
@@ -130,18 +127,10 @@ From the **sensor** folder:
 
 ```
 $ npm install
-$ node create-sensor.js
+$ node create-sensor.js [--profile] [--region]
 ```
 
-_*Note - this will create the sensor using your default AWS profile account and region.  If you have not specified a default region in your local AWS configuration, it will default to us-east-1._
-
-If you do not have a **default** profile or you are using a profile other than **default**, run the app with an AWS_PROFILE environment variable specifiying the profile name you would like to use.
-
-Replace [my-aws-profile] with the name of your profile:
-
-```
-$ AWS_PROFILE=[my-aws-profile] node create-sensor.js
-```
+*Note - the profile and region arguments are optional. If not specified, the app will create the sensor using your default AWS Profile in us-east-1*
 
 ## Run the App
 
@@ -212,50 +201,10 @@ $ amplify delete
 From the **sensor** folder:
 
 ```
-$ node delete-sensor.js
+$ node delete-sensor.js [--profile] [--region]
 ```
 
-## Troubleshooting
-
-**Installing Amplify**
-```
-$ npm install -g @aws-amplify/cli
-```
-
-If you receive EACCES permisisons errors, make sure your system is setup properly to install global packages.  See this [Guide for options](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally).
-
-**Starting the iPhone App in the Simulator**
-```
-$ npx react-native run-ios
-```
-
-When the iPhone simulator first starts you may see a red error screen related to the URL.  This can occur if the simulator starts before the app in the terminal window finishes loading.  If you see this:
-
-1. wait a few seconds
-2. click on the simulator
-3. hit the cmd-R key combination
-
-This will cause the simulator to reload the app.
-
-**Installing Pods or the Xcode Build**
-
-If `pod install` or `npx react-native run-ios` give you errors outside of the simulator try ensuring Xcode Developer tools are installed via
-
-```
-$ xcode-select --install
-```
-
-Make sure CocoaPods are installed
-
-```
-$ sudo gem install cocoapods
-```
-
-If you get an error like "xcrun: error: unable to find utility “simctl”, not a developer tool or in PATH", ensure Xcode tools are pointing to your Xcode Application via
-
-```
-$ sudo xcode-select -s /Applications/Xcode.app 
-``` 
+*Note - the profile and region arguments are optional. If not specified the app will delete the sensors using your default AWS Profile in us-east-1*
 
 ## License
 

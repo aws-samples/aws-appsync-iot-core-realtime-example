@@ -1,8 +1,8 @@
 {
+  "clientId": "aws-iot-mobile-demo-sensor",
   "host": "",
   "keyPath": "",
   "certPath": "",
   "caPath": "",
-  "clientId": "",
   "certificateArn": ""
 }
