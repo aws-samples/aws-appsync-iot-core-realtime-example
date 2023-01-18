@@ -1,4 +1,0 @@
-{
-    "IoTRuleName": "sensorview_create_sensorvalue_rule",
-    "IoTRuleSQL": "select * as data, topic(3) as sensorId from 'dt/sensor-view/+/sensor-value'"
-}

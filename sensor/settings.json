@@ -1,8 +1,8 @@
 {
   "clientId": "aws-iot-mobile-demo-sensor",
-  "host": "",
-  "keyPath": "",
-  "certPath": "",
-  "caPath": "",
-  "certificateArn": ""
+  "host": "a7xm45onti3g0-ats.iot.us-east-1.amazonaws.com",
+  "keyPath": "./certs/aws-iot-mobile-demo-sensor-private.pem.key",
+  "certPath": "./certs/aws-iot-mobile-demo-sensor-certificate.pem.crt",
+  "caPath": "./certs/AmazonRootCA1.pem",
+  "certificateArn": "arn:aws:iot:us-east-1:224461513283:cert/10d33a7181c344696455ca60b60ee1110c892375a49400395c9eb121bef72579"
 }

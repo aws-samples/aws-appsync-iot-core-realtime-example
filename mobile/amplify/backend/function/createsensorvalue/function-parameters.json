@@ -1,9 +1,10 @@
 {
-    "permissions": {
-        "api": {
-            "sensorview": [
-                "create"
-            ]
-        }
+  "permissions": {
+    "api": {
+      "sensorapi": [
+        "Mutation"
+      ]
     }
+  },
+  "lambdaLayers": []
 }

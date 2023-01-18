@@ -1,4 +1,4 @@
-# aws-appsync-iot-core-realtime-example
+# AWS AppSync IoT Core Realtime Example
 
 This application demonstrates an iPhone receiving real-time updates from an IoT sensor.  The solution is built with AWS AppSync and AWS IoT Core technologies.
 
@@ -17,9 +17,9 @@ This application demonstrates an iPhone receiving real-time updates from an IoT 
 
 2. A rule in IoT Core subscribes to the message topic and forwards the JSON payload to a Lambda function.
 
-3. The Node js Lambda function executes a GraphQL mutatation in AppSync.  The mutation saves the latest value for the sensor in DynamoDB and broadcasts the latest value in real-time to the iOS application. The Lambda function uses an IAM role and policy to obtain permissions to interact with AppSync.
+3. The NodeJS Lambda function executes a GraphQL mutatation in AppSync.  The mutation saves the latest value for the sensor in DynamoDB and broadcasts the latest value in real-time to the iOS application. The Lambda function uses an IAM role and policy to obtain permissions to interact with AppSync.
 
-4. The React Native iOS application subscribes to the AppSync Sensor Update subscription.  When new temperature values are received, the gauge component on the screen is updated in real-time to reflect the new sensor value. The iOS application uses Cognito to authenticate users and allow them to perform the AppSync subscription. 
+4. The iOS application uses the [Amplify Swift](https://github.com/aws-amplify/amplify-swift) package, built with the [AWS SDK for Swift](https://github.com/awslabs/aws-sdk-swift), to subscribe to the AppSync Sensor Value subscription.  When new temperature values are received, the gauge component on the screen is updated in real-time to reflect the new sensor value. 
 
 ## Getting Started
 
@@ -44,31 +44,21 @@ After you have installed and configured Amplify, take note of the AWS profile yo
 **Clone this code repository**
 
 ```
-$ git clone https://github.com/aws-samples/aws-appsync-iot-core-realtime-example.git
+git clone https://github.com/aws-samples/aws-appsync-iot-core-realtime-example.git
 ```
 
 **Switch to the mobile folder**
 
 ```
-$ cd aws-appsync-iot-core-realtime-example/mobile
-```
-
-**Install the iOS app's Node.js and CocoaPod packages**
-
-```
-$ npm install
-$ cd ios
-$ pod install
-$ cd ..
+cd aws-appsync-iot-core-realtime-example/mobile
 ```
 
 **Initialize your Amplify environment**
 
 ```
-$ cd aws-appsync-iot-core-realtime-example/mobile
-$ amplify init
+amplify init
 
-? Enter a name for the environment: mysandbox
+? Enter a name for the environment: dev
 ? Choose your default editor: [select your favorite IDE]
 ? Do you want to use an AWS profile? Yes
 ? Please choose the profile you want to use: default
@@ -76,35 +66,30 @@ $ amplify init
 
 When you select your profile, make sure to select the same profile you used when configuring Amplify.
 
-Amplify will then begin to provision your account for the project deployment.
+Once your account has been provisioned, entering the **amplify status** command will show you the resources Amplify will create in your account:
 
 ```
-? Do you want to configure Lambda Triggers for Cognito? (Y/n) n
-```
-Once your account has been provisioned, entering the 'amplify status' command will show you the resources Amplify will create in your account:
+amplify status
 
-```
-$ amplify status
+Current Environment: dev
 
-Current Environment: mysandbox
-
-| Category | Resource name      | Operation | Provider plugin   |
-| -------- | ------------------ | --------- | ----------------- |
-| Auth     | sensorview74d21f87 | Create    | awscloudformation |
-| Api      | sensorview         | Create    | awscloudformation |
-| Function | getsensor          | Create    | awscloudformation |
-| Function | createsensorvalue  | Create    | awscloudformation |
-| Iotrule  | createsensorvalue  | Create    | awscloudformation |
+┌──────────┬───────────────────┬───────────┬───────────────────┐
+│ Category │ Resource name     │ Operation │ Provider plugin   │
+├──────────┼───────────────────┼───────────┼───────────────────┤
+│ Api      │ sensorapi         │ Create    │ awscloudformation │
+├──────────┼───────────────────┼───────────┼───────────────────┤
+│ Function │ createsensorvalue │ Create    │ awscloudformation │
+├──────────┼───────────────────┼───────────┼───────────────────┤
+│ Custom   │ iotrule           │ Create    │ awscloudformation │
+└──────────┴───────────────────┴───────────┴───────────────────┘
 ```
 
 **Deploy the app infrastructure to your AWS account**
 
 ```
-$ amplify push
+amplify push
 
-? Do you want to update code for your updated GraphQL API (Y/n) Y
-
-? Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types? This will overwrite your current graphql queries, mutations and subscriptions (Y/n) Y
+? Do you want to generate code for your newly created GraphQL API (Y/n) n
 ```
 You will then see a series of output as Amplify builds and deploys the app's CloudFormation Templates, creating the app infrastucture in your AWS account. 
 
@@ -112,10 +97,16 @@ Resources being created in your account include:
 
 - AppSync GraphQL API
 - DynamoDB table
-- Cognito user pool
-- Lambda functions (2)
+- Lambda function
 - IoT Rule
 
+**Generate the Swift client side code**
+
+This command will generate the Swift classes for your app to communicate with the the API.
+
+```
+amplify codegen models
+```
 
 **Install the IoT Sensor Simulator**
 
@@ -126,8 +117,8 @@ Install the Node.js packages, and run the Node.js app to create your sensor as a
 From the **sensor** folder:
 
 ```
-$ npm install
-$ node create-sensor.js [--profile] [--region]
+npm install
+node create-sensor.js [--profile] [--region]
 ```
 
 *Note - the profile and region arguments are optional. If not specified, the app will create the sensor using your default AWS Profile in us-east-1*
@@ -139,53 +130,36 @@ $ node create-sensor.js [--profile] [--region]
 From the **sensor** terminal window:
 
 ```
-$ node index.js
+node index.js
 ```
 You will see output from the app as it connects to IoT Core, transmits its shadow document, and publishes new temperature messages every 2 seconds.
 
 ```
 connected to IoT Hub
 
-published to shadow topic $aws/things/sensor-1592073852935/shadow/update {"state":{"reported":{"sensorType":"Temperature"}}}
+published to shadow topic $aws/things/aws-iot-mobile-demo-sensor/shadow/update {"state":{"reported":{"sensorType":"Temperature"}}}
 
-published to topic dt/sensor-view/sensor-1592073852935/sensor-value {"value":77,"timestamp":1592073890804}
+published to topic dt/sensor-view/aws-iot-mobile-demo-sensor/sensor-value {"value":77,"timestamp":1592073890804}
 
-published to topic dt/sensor-view/sensor-1592073852935/sensor-value {"value":76,"timestamp":1592073892807}
+published to topic dt/sensor-view/aws-iot-mobile-demo-sensor/sensor-value {"value":76,"timestamp":1592073892807}
 
-published to topic dt/sensor-view/sensor-1592073852935/sensor-value {"value":77,"timestamp":1592073894810}
+published to topic dt/sensor-view/aws-iot-mobile-demo-sensor/sensor-value {"value":77,"timestamp":1592073894810}
 ```
 Keep this app running and switch to your mobile terminal window.
 
 **Start the iPhone app**
 
-Switch back to the terminal window pointing to the **mobile** folder and run:
+From the terminal window pointing to the **mobile** folder (aws-appsync-iot-core-realtime-example/mobile) and open the Xcode project:
 
 ```
-$ npx react-native run-ios
-```
-This will launch Xcode's iPhone simulator and a new terminal window that serves up the app.
-
-The default simulator is "iPhone X". If you wish to run your app on another iPhone version, for example an iPhone 11 Pro Max, run:
-
-```
-$ npx react-native run-ios --simulator="iPhone 11 Pro Max"
+open mobile.xcodeproj
 ```
 
-The simulator name must correspond to a device available in Xcode. You can check your available devices by running the following command from the console.
-
-```
-$ xcrun simctl list devices 
-```
-
-**Sign-up and Sign-in**
-
-The iOS app requires users to authenticate via Cognito.  The first screen you will see is a logon screen.  Tap the **Sign Up** link and then tap the link to **Create account** and create a new account using your email address.
-
-Cognito will then email you a confirmation code.  Enter this code into the subsequent confirmation screen and logon to the app with your credentials.
+Once the project loads in Xcode, select the "Run" arrow button to start the app.
 
 **Use the App!**
 
-You should now see a screen similar to the one at the top of this guide.  If you look at the terminal window running the sensor app, you shoud see the values being published to the Cloud reflected in the iPhone app's sensor gauge in real-time.
+You should now see a screen similar to the one at the top of this guide.  If you look at the terminal window running the sensor app, you shoud see the values published to the Cloud reflected in the iPhone app's sensor gauge in real-time.
 
 ## Cleanup
 
@@ -194,14 +168,14 @@ Once you are finished working with this project, you may want to delete the reso
 From the **mobile** folder:
 
 ```
-$ amplify delete
+amplify delete
 ? Are you sure you want to continue? (This would delete all the environments of the project from the cloud and wipe out all the local amplify resource files) (Y/n)  Y
 ```
 
 From the **sensor** folder:
 
 ```
-$ node delete-sensor.js [--profile] [--region]
+node delete-sensor.js [--profile] [--region]
 ```
 
 *Note - the profile and region arguments are optional. If not specified the app will delete the sensor using your default AWS Profile in us-east-1*

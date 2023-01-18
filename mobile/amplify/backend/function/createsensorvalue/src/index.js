@@ -1,79 +1,90 @@
 /* Amplify Params - DO NOT EDIT
-	API_SENSORVIEW_GRAPHQLAPIENDPOINTOUTPUT
-	API_SENSORVIEW_GRAPHQLAPIIDOUTPUT
+	API_SENSORAPI_GRAPHQLAPIENDPOINTOUTPUT
+	API_SENSORAPI_GRAPHQLAPIIDOUTPUT
+	API_SENSORAPI_GRAPHQLAPIKEYOUTPUT
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
 
-const https = require('https');
-const AWS = require('aws-sdk');
-const urlParse = require("url").URL;
+import crypto from '@aws-crypto/sha256-js';
+import { defaultProvider } from '@aws-sdk/credential-provider-node';
+import { SignatureV4 } from '@aws-sdk/signature-v4';
+import { HttpRequest } from '@aws-sdk/protocol-http';
+import { default as fetch, Request } from 'node-fetch';
 
-//environment variables
-const region = process.env.REGION
-const appsyncUrl = process.env.API_SENSORVIEW_GRAPHQLAPIENDPOINTOUTPUT
-const endpoint = new urlParse(appsyncUrl).hostname.toString();
+const GRAPHQL_ENDPOINT = process.env.API_SENSORAPI_GRAPHQLAPIENDPOINTOUTPUT;
+const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
+const { Sha256 } = crypto;
 
-exports.handler = async (event) => {
+const query = /* GraphQL */ `
+  mutation CreateSensorValue ($input: CreateSensorValueInput!) {
+    createSensorValue(input: $input) {
+      id
+      sensorId
+      value
+      timestamp
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
-  console.log('event received:' + JSON.stringify(event));
-  
-  const req = new AWS.HttpRequest(appsyncUrl, region);
+ export const handler = async (event) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`);
 
-  //define the graphql mutation to create the sensor values
-  const mutationName = 'CreateSensorValue';
-  const mutation = require('./mutations').createSensorValue;
-
-  //determine if the sensor value is a warning based on the value >= 80
-  let isWarning = (event.data.value) >= 80 ? true: false;
-  
-  //create the mutuation input from the sensor event data
-  const item = {
+  //create the mutuation from the sensor event data
+  const variables = {
     input: {
       sensorId: event.sensorId,
       value: event.data.value,
-      isWarning: isWarning,
       timestamp: event.data.timestamp
     }
   };
 
-  //execute the mutation
+  const endpoint = new URL(GRAPHQL_ENDPOINT);
+
+  const signer = new SignatureV4({
+    credentials: defaultProvider(),
+    region: AWS_REGION,
+    service: 'appsync',
+    sha256: Sha256
+  });
+
+  const requestToBeSigned = new HttpRequest({
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      host: endpoint.host
+    },
+    hostname: endpoint.host,
+    body: JSON.stringify({ query, variables }),
+    path: endpoint.pathname
+  });
+
+  const signed = await signer.sign(requestToBeSigned);
+  const request = new Request(endpoint, signed);
+
+  let statusCode = 200;
+  let body;
+  let response;
+
   try {
-
-    req.method = "POST";
-    req.headers.host = endpoint;
-    req.headers["Content-Type"] = "application/json";
-    req.body = JSON.stringify({
-        query: mutation,
-        operationName: mutationName,
-        variables: item
-    });
-
-    const signer = new AWS.Signers.V4(req, "appsync", true);
-    signer.addAuthorization(AWS.config.credentials, AWS.util.date.getDate());
-
-    const data = await new Promise((resolve, reject) => {
-      const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
-          result.on('data', (data) => {
-              resolve(JSON.parse(data.toString()));
-          });
-    });
-
-      httpRequest.write(req.body);
-      httpRequest.end();
-
-    });
-
-    console.log("Successful mutation");
-
-    return {
-        statusCode: 200,
-        body: data
+    response = await fetch(request);
+    body = await response.json();
+    if (body.errors) statusCode = 400;
+  } catch (error) {
+    statusCode = 500;
+    body = {
+      errors: [
+        {
+          message: error.message
+        }
+      ]
     };
+  }
 
-  }
-  catch (err) {
-    console.log("error: " + err);
-    throw new Error("Error creating sensor value for sensor: " + event.sensorId);
-  }
-}
+  return {
+    statusCode,
+    body: JSON.stringify(body)
+  };
+};
