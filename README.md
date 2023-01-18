@@ -60,8 +60,12 @@ amplify init
 
 ? Enter a name for the environment: dev
 ? Choose your default editor: [select your favorite IDE]
-? Do you want to use an AWS profile? Yes
-? Please choose the profile you want to use: default
+? Select the authentication method you want to use: (Use arrow keys)
+❯ AWS profile
+  AWS access keys
+
+? Please choose the profile you want to use (Use arrow keys)
+❯ default
 ```
 
 When you select your profile, make sure to select the same profile you used when configuring Amplify.
