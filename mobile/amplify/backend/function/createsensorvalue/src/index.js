@@ -29,6 +29,7 @@ const query = /* GraphQL */ `
   }
 `;
 
+
  export const handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
 
@@ -71,6 +72,7 @@ const query = /* GraphQL */ `
   try {
     response = await fetch(request);
     body = await response.json();
+    console.log(body)
     if (body.errors) statusCode = 400;
   } catch (error) {
     statusCode = 500;

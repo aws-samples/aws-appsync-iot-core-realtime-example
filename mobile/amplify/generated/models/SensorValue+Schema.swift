@@ -24,7 +24,8 @@ extension SensorValue {
       rule(allow: .public, provider: .apiKey, operations: [.create, .update, .delete, .read])
     ]
     
-    model.pluralName = "SensorValues"
+    model.listPluralName = "SensorValues"
+    model.syncPluralName = "SensorValues"
     
     model.attributes(
       .primaryKey(fields: [sensorValue.id])
