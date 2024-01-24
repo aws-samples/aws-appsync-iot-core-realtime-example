@@ -29,13 +29,13 @@ The following software was used in the development of this application.  While i
 
 1. An AWS account in which you have Administrator access.
 
-2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) (2.4.19) the AWS Command Line Interface (CLI) is used to configure your connection credentials to AWS.
+2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) (^2.15.3) the AWS Command Line Interface (CLI) is used to configure your connection credentials to AWS.
 
-3. [Node.js](https://nodejs.org/en/download/current/) (^16.8.1) with NPM (^8.12.2)
+3. [Node.js](https://nodejs.org/en/download/current/) (^18.19.0) with NPM (^10.1.0)
 
-4. [Amplify CLI](https://docs.amplify.aws/cli/start/install) (^10.6.1) Amplify is used to create the AWS AppSync API and generate the client side Swift code to interact with AWS.
+4. [Amplify CLI](https://docs.amplify.aws/cli/start/install) (^12.10.1x) Amplify is used to create the AWS AppSync API and generate the client side Swift code to interact with AWS.
 
-5. [Xcode](https://developer.apple.com/xcode/) (14.2) Xcode is used to build and debug the mobile appliction application.  You will need iOS Simulator 16.0 enabled.
+5. [Xcode](https://developer.apple.com/xcode/) (15.2) Xcode is used to build and debug the mobile appliction application.  You will need iOS Simulator 17.0 enabled.
 
 After you have installed and configured Amplify, take note of the AWS profile you selected during the configuration.  If you created a profile other than **default**, you will need the profile name for later steps in the deployment.
 
