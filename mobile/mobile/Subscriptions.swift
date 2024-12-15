@@ -1,13 +1,20 @@
+//
+//  Subscriptions.swift
+//  mobile
+//
+//  Created by David Moser on 12/15/24.
+//
+
 import Amplify
 
 // Appsync GraphQL subscription request for sensor values
 extension GraphQLRequest {
     
-    static func onCreateSensorValue(sensorId: String) -> GraphQLRequest<SensorValue> {
+    static func onCreateSensorValue() -> GraphQLRequest<SensorValue> {
         let operationName = "onCreateSensorValue"
         let document = """
-        subscription \(operationName)($sensorId: String!) {
-          \(operationName)(sensorId: $sensorId) {
+        subscription {
+          \(operationName) {
             id
             createdAt
             sensorId
@@ -20,7 +27,6 @@ extension GraphQLRequest {
         
         return GraphQLRequest<SensorValue>(
             document: document,
-            variables: ["sensorId": sensorId],
             responseType: SensorValue.self,
             decodePath: operationName)
     }

@@ -1,3 +1,10 @@
+//
+//  ContentView.swift
+//  mobile
+//
+//  Created by David Moser on 12/15/24.
+//
+
 import SwiftUI
 import Amplify
 
@@ -38,8 +45,6 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//#Preview {
+//    ContentView()
+//}
