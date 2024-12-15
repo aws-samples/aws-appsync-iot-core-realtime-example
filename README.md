@@ -1,8 +1,8 @@
 # AWS AppSync IoT Core Realtime Example
 
-This application demonstrates an iPhone receiving real-time updates from an IoT sensor. The solution is built with AWS AppSync and AWS IoT Core technologies.
-
 **Update!!** the project has been updated to use [**Amplify Gen2**](https://docs.amplify.aws/swift/) to deploy the backend services in AWS.
+
+This application demonstrates an iPhone receiving real-time updates from an IoT sensor. The solution is built with AWS AppSync and AWS IoT Core technologies.
 
 ![Image description](images/app.png)
 
